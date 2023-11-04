@@ -1,0 +1,29 @@
+video {
+  object-fit: cover;
+  z-index: -100;
+}
+
+/* sovrapposizione sfocata per background*/
+.overlay_background {
+
+  backdrop-filter: blur(1.7px) brightness(.3);
+
+  z-index: -90;
+
+}
+
+/* sfondo sfocato per modal e aside*/
+.backdrop {
+
+  backdrop-filter: blur(1.7px) brightness(.6);
+
+  z-index: 50;
+}
+
+@media (orientation:landscape) {
+
+  video {
+
+    object-position: 0 43%;
+  }
+}

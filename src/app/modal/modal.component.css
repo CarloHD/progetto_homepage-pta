@@ -1,0 +1,96 @@
+.modal {
+  width: 80%;
+
+  margin: auto;
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .3);
+  padding: 20px 20px 5px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  z-index: 55;
+
+}
+
+.modal .close_modal {
+  width: 24px;
+  aspect-ratio: 1/1;
+  color: #fff;
+  background-color: #cc0000;
+  border-radius: 50%;
+
+  position: absolute;
+  top: 5%;
+  right: 5%;
+
+  cursor: pointer;
+
+}
+
+.close_modal svg {
+
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+}
+
+.modal header {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.modal header h1 {
+  font-size: 1.2rem;
+  align-self: center;
+}
+
+.modal p span {
+
+  display: block;
+  margin-bottom: 5px;
+
+}
+
+.modal p span:first-of-type {
+  color: #cc0000;
+  font-weight: 700;
+}
+
+.modal hr {
+  margin-bottom: 5px;
+}
+
+.modal footer {
+  margin-top: 10px;
+
+  font-size: .6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (orientation:landscape) {
+
+  .modal {
+    width: 50%;
+  }
+}

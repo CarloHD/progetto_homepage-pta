@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
+
+  font-family: 'Comfortaa', sans-serif;
+}
+
+body {
+
+  height: 100dvh;
+  width: 100dvw;
+
+  background-color: #df1400;
+  background-image: url(./assets/poster-video-iliad.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  overflow: hidden;
+
+}
+
+hr {
+  width: 70%;
+  border: 1px solid #000
+}
+
+.absolute_position {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.hidden {
+  display: none;
+}

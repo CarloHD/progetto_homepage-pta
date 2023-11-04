@@ -1,0 +1,240 @@
+.card {
+  height: 91px;
+
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .3);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-weight: 700;
+
+  position: relative;
+
+}
+
+.card a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 10;
+
+  cursor: pointer;
+
+}
+
+.info_control,
+.video_control {
+  height: 30px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 20px;
+
+  display: flex;
+  align-items: center;
+
+}
+
+.info_control .info_button {
+  width: 24px;
+  aspect-ratio: 1/1;
+
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .3);
+  position: relative;
+
+  cursor: pointer;
+
+}
+
+.info_button svg {
+
+  left: 50%;
+  top: 46%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+}
+
+.video_control {
+  left: unset;
+  right: 0;
+
+}
+
+.switch {
+  height: 100%;
+  aspect-ratio: 2/1;
+  background-color: #fff;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .3);
+  border-radius: 15px;
+
+  position: relative;
+
+}
+
+.switch::before,
+.switch::after {
+
+  content: 'Stop';
+
+  padding: 0 7px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: .5rem;
+
+}
+
+.switch::after {
+
+  content: 'Play';
+  right: 0%;
+
+}
+
+.switch_dot {
+
+  height: 24px;
+  aspect-ratio: 1/1;
+  background-color: #b6b8ba;
+  border-radius: 50%;
+
+  position: absolute;
+  top: 50%;
+
+  transform: translateY(-50%) translateX(5px);
+
+  z-index: 10;
+
+  transition: all ease-in-out 300ms;
+
+  cursor: pointer;
+
+}
+
+.switch_dot_on {
+  background-color: #cc0000;
+
+  transform: translateY(-50%) translateX(calc(150% - 5px));
+
+}
+
+.main_content {
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+
+}
+
+.main_content > header {
+  flex-grow: 2;
+
+}
+
+.main_content header,
+.main_content footer {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+
+}
+
+.main_content > header .card {
+  height: 120px;
+}
+
+.main_content > header h2 {
+  color: #cc0000;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.main_content > header h3 {
+  color: #000;
+  font-weight: 400;
+}
+
+.central_content {
+  flex-grow: 5;
+  display: flex;
+  align-items: center;
+
+}
+
+.central_content ul {
+
+  list-style: none;
+  width: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+
+}
+
+.central_content .card {
+  max-height: 91px;
+  width: 150px;
+  margin: 20px;
+
+  font-size: .8rem;
+}
+
+.central_content .card:last-of-type {
+
+  left: 50%;
+
+}
+
+.central_content .card hr {
+  margin-top: -10px;
+}
+
+.main_content > footer {
+  flex-grow: 1;
+}
+
+#pta_logo {
+  filter: drop-shadow(2px 0 1px rgba(0, 0, 0, .5));
+
+}
+
+@media (orientation:landscape) {
+
+  .central_content ul {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+
+  }
+
+  .central_content .card:last-of-type {
+    justify-self: start;
+    left: -20%;
+  }
+
+  .central_content .card:first-of-type {
+    justify-self: end;
+    left: 20%;
+  }
+}

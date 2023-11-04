@@ -1,0 +1,117 @@
+<main
+  appHideInterface
+  #main_content
+  class="main_content"
+  (dblclick)="toggleFullscreen($event)"
+  (mousedown)="hideInterfaceOnLongPress($event)"
+  (mouseup)="showInterfaceOnUnpress()"
+  (touchstart)="hideInterfaceOnLongPress($event)"
+  (touchend)="showInterfaceOnUnpress()"
+>
+  <div
+    class="info_control"
+    (click)="onClickInfo()"
+  >
+    <div class="info_button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="20"
+        viewBox="0 -960 960 960"
+        width="20"
+      >
+        <path
+          d="M479.788-672Q450-672 429-693.212q-21-21.213-21-51Q408-774 429.212-795q21.213-21 51-21Q510-816 531-794.788q21 21.213 21 51Q552-714 530.788-693q-21.213 21-51 21ZM480-144q-25 0-42.5-17.5T420-204v-312q0-25 17.5-42.5T480-576q25 0 42.5 17.5T540-516v312q0 25-17.5 42.5T480-144Z"
+        />
+      </svg>
+    </div>
+  </div>
+  <div class="video_control">
+    <label
+      class="switch"
+      (click)="onClickVideoSwitch()"
+    >
+      <span
+        class="switch_dot"
+        [ngClass]="{'switch_dot_on': switchIsOn}"
+      ></span>
+    </label>
+  </div>
+  <header>
+    <div class="card">
+      <h2><span>{{ore}}</span>:<span>{{minuti}}</span></h2>
+      <hr>
+      <h3>{{data}}</h3>
+    </div>
+  </header>
+  <div class="central_content">
+    <ul>
+      <li class="card">
+        <a
+          href="https://www.iliad.it/account/"
+          target="_blank"
+        ></a>
+        <i><img
+            src="https://favicon.twenty.com/iliad.it"
+            alt="iliad logo"
+            height="32"
+          ></i>
+        <hr>
+        <p>Area Personale</p>
+      </li>
+      <li class="card">
+        <a
+          href="https://www.iliad.it/attiva/#form_activation_sim"
+          target="_blank"
+        ></a>
+        <i><img
+            src="https://favicon.twenty.com/iliad.it"
+            alt="iliad logo"
+            height="32"
+          ></i>
+        <hr>
+        <p>Attiva SIM</p>
+      </li>
+      <li class="card">
+        <a
+          href="https://www.iliad.it/copertura"
+          target="_blank"
+        ></a>
+        <i><img
+            src="https://favicon.twenty.com/iliad.it"
+            alt="iliad logo"
+            height="32"
+          ></i>
+        <hr>
+        <p>Copertura</p>
+      </li>
+    </ul>
+  </div>
+  <footer>
+    <div class="card">
+      <a
+        href="https://tool.ptagroup.it/dashboard_ba"
+        target="_blank"
+      ></a>
+      <i><img
+          id="pta_logo"
+          src="https://tool.ptagroup.it/images/ptagroup_logo.png"
+          alt="pta logo"
+          height="32"
+        ></i>
+      <p>PTA Tool</p>
+    </div>
+    <div class="card">
+      <a
+        href="https://www.myinfinityportal.it/miphrprof"
+        target="_blank"
+      ></a>
+      <i><img
+          id="HR_logo"
+          src="https://www.myinfinityportal.it/miphrprof/images/login/logo.svg"
+          alt="HR logo"
+          height="32"
+        ></i>
+      <p>HR Professional</p>
+    </div>
+  </footer>
+</main>

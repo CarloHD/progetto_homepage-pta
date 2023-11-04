@@ -1,0 +1,38 @@
+<aside
+  class="absolute_position aside_news"
+  [ngClass]="{'expanded':expanded}"
+>
+  <span
+    class="aside_label"
+    appHideInterface
+    (click)="onClickAside()"
+  ></span>
+  <h3>News</h3>
+  <p class="aside_update">
+    <span>Aggiornate il: </span>
+    <span>{{dateUpdate}}</span>
+  </p>
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <div class="aside_content">
+    <article *ngIf="error.length > 0">
+      <p>Si è verificato un errore di rete, controlla la tua connessione o
+        riprova più tardi</p>
+      <br>
+      <p>Errore: <i>"{{error}}"</i></p>
+    </article>
+    <article *ngFor="let post of posts">
+      <h4>{{post.title}}</h4>
+      <div [innerHTML]="post.content"></div>
+      <p [ngStyle]="{
+        'text-align': 'right',
+        'margin-top': '5px'}"> {{post.date |
+        date:'d/M/y'}}</p>
+    </article>
+  </div>
+  <footer class="aside_footer">
+    <p>Fonte: <a
+        href="https://www.mondomobileweb.it/category/rimodulazioni/"
+        target="_blank"
+      >MondoMobileWeb</a></p>
+  </footer>
+</aside>
