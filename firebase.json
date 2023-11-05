@@ -9,5 +9,11 @@
     "frameworksBackend": {
       "region": "europe-west1"
     }
+  },
+  "emulators": {
+    "hosting": {
+      "port": 5000,
+      "host": "0.0.0.0"
+    }
   }
 }

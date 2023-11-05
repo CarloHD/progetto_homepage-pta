@@ -15,7 +15,7 @@ export class HideInterfaceDirective {
       if (value) {
         this.element.nativeElement.style.opacity = '0'
       } else {
-        this.element.nativeElement.style.opacity = '1'
+        this.element.nativeElement.style.removeProperty('opacity')
       }
     })
   }

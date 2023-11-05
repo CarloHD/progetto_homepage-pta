@@ -13,11 +13,14 @@
 </video>
 <div
   class="overlay_background absolute_position"
+  [ngClass]="{'overlay_ui': asideExpanded || modalVisible}"
+  [ngStyle]="{
+    'z-index': 
+      asideExpanded && 45 
+      || modalVisible && 55 
+      || -90
+    }"
   appHideInterface
-></div>
-<div
-  *ngIf="modalVisible || asideExpanded"
-  class="backdrop absolute_position"
 ></div>
 <app-modal *ngIf="modalVisible"></app-modal>
 <app-aside-news></app-aside-news>
