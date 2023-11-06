@@ -37,6 +37,9 @@ export class AsideNewsComponent {
   dateUpdate: string = ''
   error = ''
 
+  longPressTimer: any
+  longPressState = false
+
   onClickAside () {
     this.expanded = !this.expanded
     this.uiService.asideExpanseSubject.next(this.expanded)
@@ -44,5 +47,28 @@ export class AsideNewsComponent {
     if (this.expanded && this.posts.length == 0) {
       this.newsService.onLoadPosts()
     }
+  }
+
+  toggleFullscreen (event: MouseEvent) {
+    const element = document.documentElement
+
+    if (document.fullscreenElement === null) {
+      element.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+  }
+
+  hideInterfaceOnLongPress (event: MouseEvent | TouchEvent) {
+    // if ((event.target as HTMLElement).localName !== 'a') {
+    this.longPressTimer = setTimeout(() => {
+      this.uiService.longPressSubject.next(true)
+    }, 800)
+    // }
+  }
+
+  showInterfaceOnUnpress () {
+    clearTimeout(this.longPressTimer)
+    this.uiService.longPressSubject.next(false)
   }
 }

@@ -1,3 +1,13 @@
+<div
+  appBlurred
+  class="absolute_position"
+  [ngStyle]="{'z-index': expanded ? 45: 4}"
+  (dblclick)="toggleFullscreen($event)"
+  (mousedown)="hideInterfaceOnLongPress($event)"
+  (mouseup)="showInterfaceOnUnpress()"
+  (touchstart)="hideInterfaceOnLongPress($event)"
+  (touchend)="showInterfaceOnUnpress()"
+></div>
 <aside
   class="absolute_position aside_news"
   [ngClass]="{'expanded':expanded}"

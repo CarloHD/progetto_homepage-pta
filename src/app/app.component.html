@@ -1,4 +1,10 @@
+<div
+  *ngIf="!autoplayVideoState"
+  class="absolute_position background"
+></div>
 <video
+  *ngIf="autoplayVideoState"
+  poster="../assets/poster-video-iliad.png"
   #background_video
   id="background_video"
   class="absolute_position"
@@ -12,15 +18,8 @@
 >
 </video>
 <div
-  class="overlay_background absolute_position"
-  [ngClass]="{'overlay_ui': asideExpanded || modalVisible}"
-  [ngStyle]="{
-    'z-index': 
-      asideExpanded && 45 
-      || modalVisible && 55 
-      || -90
-    }"
-  appHideInterface
+  appBlurred
+  class="absolute_position backdrop_background"
 ></div>
 <app-modal *ngIf="modalVisible"></app-modal>
 <app-aside-news></app-aside-news>

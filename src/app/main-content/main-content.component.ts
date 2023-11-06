@@ -17,9 +17,6 @@ export class MainContentComponent implements OnInit {
   minuti: string = ''
   data: string = ''
 
-  longPressTimer: any
-  longPressState = false
-
   switchIsOn = false
 
   ngOnInit (): void {
@@ -57,35 +54,5 @@ export class MainContentComponent implements OnInit {
       day: '2-digit',
       month: 'long'
     })
-  }
-
-  toggleFullscreen (event: MouseEvent) {
-    if (
-      (event.target as HTMLElement).classList.contains('central_content') ||
-      (event.target as HTMLElement).tagName === 'UL' ||
-      (event.target as HTMLElement).tagName === 'FOOTER' ||
-      (event.target as HTMLElement).tagName === 'HEADER'
-    ) {
-      const element = document.documentElement
-
-      if (document.fullscreenElement === null) {
-        element.requestFullscreen()
-      } else {
-        document.exitFullscreen()
-      }
-    }
-  }
-
-  hideInterfaceOnLongPress (event: MouseEvent | TouchEvent) {
-    if ((event.target as HTMLElement).localName !== 'a') {
-      this.longPressTimer = setTimeout(() => {
-        this.uiService.longPressSubject.next(true)
-      }, 800)
-    }
-  }
-
-  showInterfaceOnUnpress () {
-    clearTimeout(this.longPressTimer)
-    this.uiService.longPressSubject.next(false)
   }
 }

@@ -7,7 +7,8 @@ import { ModalComponent } from './modal/modal.component'
 import { AsideNewsComponent } from './aside-news/aside-news.component'
 import { MainContentComponent } from './main-content/main-content.component'
 import { HideInterfaceDirective } from './hide-interface.directive';
-import { SpinnerComponent } from './spinner/spinner.component'
+import { SpinnerComponent } from './spinner/spinner.component';
+import { BlurredDirective } from './blurred.directive'
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SpinnerComponent } from './spinner/spinner.component'
     AsideNewsComponent,
     MainContentComponent,
     HideInterfaceDirective,
-    SpinnerComponent
+    SpinnerComponent,
+    BlurredDirective
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

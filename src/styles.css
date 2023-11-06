@@ -18,10 +18,6 @@ body {
   width: 100dvw;
 
   background-color: #df1400;
-  background-image: url(./assets/poster-video-iliad.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 
   overflow: hidden;
 

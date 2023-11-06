@@ -1,21 +1,30 @@
+.background {
+
+  background-image: url(../assets/poster-video-iliad.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  z-index: -100;
+}
+
 video {
   object-fit: cover;
   z-index: -100;
+
 }
 
 /* sovrapposizione sfocata per background*/
 .overlay_background {
-
-  backdrop-filter: blur(1.7px) brightness(.3);
-  -webkit-backdrop-filter: blur(1.7px) brightness(.3);
+  filter: brightness(50%);
+  background-color: black;
+  opacity: 0.8;
 
 }
 
 /* sfondo sfocato per modal e aside*/
 .overlay_ui {
-
-  backdrop-filter: blur(1.7px) brightness(.2) grayscale(60%);
-  -webkit-backdrop-filter: blur(1.7px) brightness(.2) grayscale(60%);
+  opacity: 0.85;
 
 }
 

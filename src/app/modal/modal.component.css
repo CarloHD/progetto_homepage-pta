@@ -1,3 +1,7 @@
+.backdrop_modal {
+  z-index: 55;
+}
+
 .modal {
   width: 80%;
 

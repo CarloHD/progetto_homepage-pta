@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core'
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core'
 import { UiService } from './service/ui.service'
 
 @Component({
@@ -6,7 +6,7 @@ import { UiService } from './service/ui.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
   title = 'pta_homepage'
 
   @ViewChild('background_video') backgroundVideo!: ElementRef<HTMLVideoElement>
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     })
   }
 
-  ngOnInit () {
+  ngAfterViewInit (): void {
     this.loadAutoplay()
   }
 
@@ -45,21 +45,12 @@ export class AppComponent implements OnInit {
     localStorage.setItem('autoplay', '1')
 
     if (this.backgroundVideo) {
-      this.backgroundVideo.nativeElement.style.display = 'block'
-
       this.backgroundVideo.nativeElement.play()
     }
   }
 
   disableAutoplay () {
     localStorage.setItem('autoplay', '0')
-
-    if (this.backgroundVideo) {
-      const srcVideo = this.backgroundVideo.nativeElement.src
-
-      this.backgroundVideo.nativeElement.src = srcVideo
-      this.backgroundVideo.nativeElement.style.display = 'none'
-    }
   }
 
   loadAutoplay () {
