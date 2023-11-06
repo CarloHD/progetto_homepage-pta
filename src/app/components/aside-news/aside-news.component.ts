@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
-import { UiService } from '../services/ui.service'
-import { NewsService } from '../services/news.service'
-import { Post } from '../model/post.model'
+import { UiService } from '../../services/ui.service'
+import { NewsService } from '../../services/news.service'
+import { Post } from '../../models/post.model'
 import { Subscription } from 'rxjs'
 
 @Component({

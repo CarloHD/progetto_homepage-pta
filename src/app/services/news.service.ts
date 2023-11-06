@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Subject, combineLatest, map, tap } from 'rxjs'
-import { PostOriginal } from '../model/post-original.model'
-import { Post } from '../model/post.model'
+import { PostOriginal } from '../models/post-original.model'
+import { Post } from '../models/post.model'
 import { FirebaseService } from './firebase.service'
 import { UiService } from './ui.service'
 
