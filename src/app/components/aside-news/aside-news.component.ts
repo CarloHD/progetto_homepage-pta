@@ -59,11 +59,13 @@ export class AsideNewsComponent {
     }
   }
 
-  hideInterfaceOnLongPress (event: MouseEvent | TouchEvent) {
-    if (!this.expanded) {
-      this.longPressTimer = setTimeout(() => {
-        this.uiService.longPressSubject.next(true)
-      }, 800)
+  hideInterfaceOnLongPress (event: TouchEvent | MouseEvent) {
+    if ((event as TouchEvent).touches.length === 1) {
+      if (!this.expanded) {
+        this.longPressTimer = setTimeout(() => {
+          this.uiService.longPressSubject.next(true)
+        }, 800)
+      }
     }
   }
 
