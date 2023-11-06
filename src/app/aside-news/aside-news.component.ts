@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
-import { UiService } from '../service/ui.service'
-import { NewsService } from '../service/news.service'
+import { UiService } from '../services/ui.service'
+import { NewsService } from '../services/news.service'
 import { Post } from '../model/post.model'
 import { Subscription } from 'rxjs'
 

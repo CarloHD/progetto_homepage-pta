@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core'
-import { UiService } from './service/ui.service'
+import { UiService } from './services/ui.service'
 
 @Component({
   selector: 'app-root',

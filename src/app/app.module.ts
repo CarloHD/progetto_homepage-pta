@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, isDevMode } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule } from '@angular/common/http'
 
@@ -8,7 +8,8 @@ import { AsideNewsComponent } from './aside-news/aside-news.component'
 import { MainContentComponent } from './main-content/main-content.component'
 import { HideInterfaceDirective } from './hide-interface.directive';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { BlurredDirective } from './blurred.directive'
+import { BlurredDirective } from './blurred.directive';
+import { ServiceWorkerModule } from '@angular/service-worker'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,12 @@ import { BlurredDirective } from './blurred.directive'
     SpinnerComponent,
     BlurredDirective
   ],
-  imports: [BrowserModule, HttpClientModule],
+  imports: [BrowserModule, HttpClientModule, ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: !isDevMode(),
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+})],
   providers: [],
   bootstrap: [AppComponent]
 })
