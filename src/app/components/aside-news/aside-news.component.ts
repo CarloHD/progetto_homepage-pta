@@ -37,7 +37,7 @@ export class AsideNewsComponent {
   dateUpdate: string = ''
   error = ''
 
-  longPressTimer: any
+  longPressTimer: any[] = []
   longPressState = false
 
   onClickAside () {
@@ -49,7 +49,7 @@ export class AsideNewsComponent {
     }
   }
 
-  toggleFullscreen (event: MouseEvent) {
+  toggleFullscreen () {
     const element = document.documentElement
 
     if (document.fullscreenElement === null) {
@@ -59,18 +59,26 @@ export class AsideNewsComponent {
     }
   }
 
-  hideInterfaceOnLongPress (event: TouchEvent | MouseEvent) {
-    if ((event as TouchEvent).touches.length === 1) {
-      if (!this.expanded) {
-        this.longPressTimer = setTimeout(() => {
+  hideInterfaceOnLongPress () {
+    this.longPressTimer.forEach(timer => {
+      clearTimeout(timer)
+      this.longPressTimer.pop()
+    })
+
+    if (!this.expanded) {
+      this.longPressTimer.push(
+        setTimeout(() => {
           this.uiService.longPressSubject.next(true)
         }, 800)
-      }
+      )
     }
   }
 
   showInterfaceOnUnpress () {
-    clearTimeout(this.longPressTimer)
+    this.longPressTimer.forEach(timer => {
+      clearTimeout(timer)
+      this.longPressTimer.pop()
+    })
     this.uiService.longPressSubject.next(false)
   }
 }

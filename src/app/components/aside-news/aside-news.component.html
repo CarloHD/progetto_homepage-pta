@@ -2,10 +2,10 @@
   appBlurred
   class="absolute_position"
   [ngStyle]="{'z-index': expanded ? 45: 4}"
-  (dblclick)="toggleFullscreen($event)"
-  (mousedown)="hideInterfaceOnLongPress($event)"
+  (dblclick)="toggleFullscreen()"
+  (mousedown)="hideInterfaceOnLongPress()"
   (mouseup)="showInterfaceOnUnpress()"
-  (touchstart)="hideInterfaceOnLongPress($event)"
+  (touchstart)="hideInterfaceOnLongPress()"
   (touchend)="showInterfaceOnUnpress()"
 ></div>
 <aside
