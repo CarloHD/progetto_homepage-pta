@@ -1,5 +1,4 @@
 .card {
-
   background-color: #fff;
   border-radius: 15px;
   padding: 20px;
@@ -15,7 +14,6 @@
 
   position: relative;
   z-index: 5;
-
 }
 
 .card a {
@@ -26,7 +24,6 @@
   height: 100%;
 
   cursor: pointer;
-
 }
 
 .info_control,
@@ -39,7 +36,6 @@
   left: 0;
   margin: 20px;
   z-index: 5;
-
 }
 
 .info_control .info_button {
@@ -53,7 +49,6 @@
   position: relative;
 
   cursor: pointer;
-
 }
 
 .info_button svg {
@@ -62,7 +57,6 @@
   top: 46%;
 
   transform: translate(-50%, -50%);
-
 }
 
 .video_control {
@@ -83,7 +77,6 @@
 
 .switch::before,
 .switch::after {
-
   content: 'Stop';
 
   padding: 0 7px;
@@ -93,18 +86,14 @@
   transform: translateY(-50%);
 
   font-size: .5rem;
-
 }
 
 .switch::after {
-
   content: 'Play';
   right: 0%;
-
 }
 
 .switch_dot {
-
   height: 24px;
   aspect-ratio: 1/1;
   background-color: #b6b8ba;
@@ -118,7 +107,6 @@
   transition: all ease-in-out 300ms;
 
   cursor: pointer;
-
 }
 
 .switch_dot_on {
@@ -134,14 +122,12 @@
 
 .main_content header,
 .main_content footer {
-
   height: 25%;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 40px;
-
 }
 
 .main_content > header .card {
@@ -168,7 +154,6 @@
 }
 
 .central_content ul {
-
   flex-basis: 100%;
 
   list-style: none;
@@ -178,11 +163,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-
 }
 
 .central_content .card {
-
   flex-basis: 150px;
   font-size: .8rem;
 }
@@ -193,5 +176,4 @@
 
 #pta_logo {
   filter: drop-shadow(2px 0 1px rgba(0, 0, 0, .5));
-
 }
