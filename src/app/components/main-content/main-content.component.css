@@ -25,7 +25,7 @@
   list-style: none;
   flex-basis: 100%;
   display: flex;
-  gap: 40px;
+  gap: 35px;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
