@@ -5,9 +5,7 @@ import { PostOriginal } from '../models/post-original.model'
 import { Post } from '../models/post.model'
 import { FirebaseService } from './firebase.service'
 import { UiService } from './ui.service'
-
-const urlNews =
-  'https://www.mondomobileweb.it/wp-json/wp/v2/posts?categories=4840'
+import { environment } from 'src/environments/environment.development'
 
 interface errorType {
   status: number
@@ -41,13 +39,13 @@ export class NewsService {
 
   dataUpdateSubject = new Subject<string>()
   postsSubject = new Subject<Post[]>()
-  errorSubject = new Subject<string>()
+  errorSubject = new Subject<{ infoError: string; errorMsg: string }>()
 
   fetchPost () {
     const date = Date.now()
-    const post1 = this.http.get<PostOriginal[]>(urlNews)
+    const post1 = this.http.get<PostOriginal[]>(environment.urlNews)
 
-    const post2 = this.http.get<PostOriginal[]>(urlNews + '&page=2')
+    const post2 = this.http.get<PostOriginal[]>(environment.urlNews + '&page=2')
 
     return combineLatest({ post1, post2 }).pipe(
       map(data => {
@@ -92,49 +90,79 @@ export class NewsService {
           return dateB - dateA
         })
 
-        return { date, filteredPost }
+        return { date, posts: filteredPost }
       }),
       tap(result => {
-        this.firebaseService.saveOnDatabase(result.date, result.filteredPost)
+        this.firebaseService.saveOnDatabase(result.date, result.posts)
       })
     )
   }
 
-  handleFetch (result: { date: number; filteredPost: Post[] }) {
+  handleFetch (result: { date: number; posts: Post[] }) {
     {
       this.uiService.spinnerSubject.next(false)
       this.dataUpdateSubject.next(new Date(result.date).toLocaleString())
-      this.postsSubject.next(result.filteredPost)
+      this.postsSubject.next(result.posts)
     }
+  }
+  handleError (err: errorType) {
+    const errorObj: { infoError: string; errorMsg: string } = {
+      infoError:
+        'Si è verificato un errore durante il caricamento delle nuove news, controlla la tua connessione o riprova piu tardi. \n\n Proverò a mostrate delle news meno recenti se disponibili',
+      errorMsg: ''
+    }
+    if (err.error.message) {
+      errorObj.errorMsg = err.error.message
+    } else {
+      errorObj.errorMsg = err.message
+    }
+    this.uiService.spinnerSubject.next(false)
+    this.errorSubject.next(errorObj)
   }
 
   onLoadPosts () {
     this.uiService.spinnerSubject.next(true)
     const dateNow = new Date()
-    this.firebaseService.getLastUpdate().subscribe(lastUpdate => {
-      if (
-        !lastUpdate ||
-        (lastUpdate && !datesAreOnSameDay(new Date(lastUpdate), dateNow))
-      ) {
-        console.log('fetch dal sito')
-        this.fetchPost().subscribe({
-          next: result => this.handleFetch(result),
-          error: (err: errorType) => {
-            if (err.error.message) {
-              this.errorSubject.next(err.error.message)
-            } else {
-              this.errorSubject.next(err.message)
+    this.firebaseService.getLastUpdate().subscribe({
+      next: lastUpdate => {
+        if (
+          !lastUpdate ||
+          (lastUpdate && !datesAreOnSameDay(new Date(lastUpdate), dateNow))
+        ) {
+          console.log('fetch dal sito')
+          this.fetchPost().subscribe({
+            next: result => this.handleFetch(result),
+            error: (err: errorType) => {
+              if (lastUpdate) {
+                this.handleError(err)
+                this.firebaseService.getSavedPosts().subscribe(savedPosts => {
+                  this.handleFetch({
+                    date: parseInt(lastUpdate),
+                    posts: savedPosts
+                  })
+                })
+              } else {
+                this.handleError(err)
+              }
             }
-          }
-        })
-      } else {
-        console.log('fetch dal db')
-        this.firebaseService.getSavedPosts().subscribe(savedPosts => {
-          this.handleFetch({
-            date: parseInt(lastUpdate),
-            filteredPost: savedPosts
           })
-        })
+        } else {
+          console.log('fetch dal db')
+          this.firebaseService.getSavedPosts().subscribe({
+            next: savedPosts => {
+              this.handleFetch({
+                date: parseInt(lastUpdate),
+                posts: savedPosts
+              })
+            },
+            error: err => {
+              this.handleError(err)
+            }
+          })
+        }
+      },
+      error: err => {
+        this.handleError(err)
       }
     })
   }

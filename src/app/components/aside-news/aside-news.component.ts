@@ -35,7 +35,7 @@ export class AsideNewsComponent {
 
   posts: Post[] = []
   dateUpdate: string = ''
-  error = ''
+  error: { infoError: string; errorMsg: string } | null = null
 
   longPressTimer: any[] = []
   longPressState = false

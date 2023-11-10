@@ -24,11 +24,13 @@
   </p>
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div class="aside_content">
-    <article *ngIf="error.length > 0">
-      <p>Si è verificato un errore di rete, controlla la tua connessione o
-        riprova più tardi</p>
+    <article
+      class="error"
+      *ngIf="error"
+    >
+      <p [innerText]="error.infoError"></p>
       <br>
-      <p>Errore: <i>"{{error}}"</i></p>
+      <p>Errore: <i>"{{error.errorMsg}}"</i></p>
     </article>
     <article *ngFor="let post of posts">
       <h4>{{post.title}}</h4>
