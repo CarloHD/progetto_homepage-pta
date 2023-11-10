@@ -39,7 +39,7 @@ yarn-error.log
 testem.log
 /typings
 environment.ts
-.firebase-debug.log
+firebase-debug.log
 
 
 # System files
