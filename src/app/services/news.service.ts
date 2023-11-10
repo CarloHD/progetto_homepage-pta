@@ -42,7 +42,6 @@ export class NewsService {
   errorSubject = new Subject<{
     infoError: string
     errorMsg: string
-    arrayMessaggio?: string[]
   } | null>()
 
   fetchPost () {
@@ -112,29 +111,45 @@ export class NewsService {
 
   handleError (
     err: errorType,
-    extraInfo?: { erroreDatabase: boolean | null; erroreFonte: boolean | null }
+    extraInfo: { erroreDatabase: boolean; erroreFonte: boolean }
   ) {
     const errorObj: { infoError: string; errorMsg: string } = {
-      infoError:
-        'Si è verificato un errore durante il caricamento delle nuove news, controlla la tua connessione o riprova piu tardi. \n\n Proverò a mostrate delle news meno recenti se disponibili',
+      infoError: '',
       errorMsg: ''
     }
-    if (err.error.message) {
-      errorObj.errorMsg = err.error.message
-    } else {
-      errorObj.errorMsg = err.message
+
+    switch (true) {
+      case extraInfo.erroreDatabase && !extraInfo.erroreFonte:
+        errorObj.infoError =
+          'Non è stato possibile connettersi al database.\n\n Controlla la tua connessione o riprova piu tardi.'
+
+        break
+
+      case extraInfo.erroreFonte && !extraInfo.erroreDatabase:
+        errorObj.infoError =
+          'Non è stato possibile aggiornare le news, verranno mostrate delle news meno recenti se disponibili.\n\n Controlla la tua connessione o riprova piu tardi.'
+        break
+
+      case extraInfo.erroreFonte && extraInfo.erroreDatabase:
+        errorObj.infoError =
+          'Si sono verificati errori di connessione al database ed alla fonte delle news.\n\n Controlla la tua connessione o riprova piu tardi.'
+        break
+
+      default:
+        errorObj.infoError = 'Si è verificato un errore imprevisto!'
+        break
     }
+
+    errorObj.errorMsg = err.error.message || err.message
 
     this.uiService.spinnerSubject.next(false)
     this.errorSubject.next(errorObj)
-    console.error(extraInfo)
   }
 
   onLoadPosts () {
     this.errorSubject.next(null)
     this.uiService.spinnerSubject.next(true)
     const dateNow = new Date()
-
     /**
      * Timeout per mostrare caricamento
      * (psicologicamente fa pensare che stia caricando)
@@ -143,8 +158,8 @@ export class NewsService {
       // prendo la data dell'ultima fetch
       this.firebaseService.getLastUpdate().subscribe({
         next: lastUpdate => {
+          // se data MANCANTE effettuo fetch da fonte posts
           if (!lastUpdate) {
-            // se data MANCANTE effettuo fetch da fonte posts
             console.log('fetch dal sito per prima volta')
             this.fetchPost().subscribe({
               next: result => this.handleFetch(result),
@@ -155,8 +170,8 @@ export class NewsService {
                 })
               }
             })
-          } else if (!datesAreOnSameDay(new Date(lastUpdate), dateNow)) {
             // se data SCADUTA effettuo fetch da fonte posts
+          } else if (!datesAreOnSameDay(new Date(lastUpdate), dateNow)) {
             console.log('fetch dal sito')
             this.fetchPost().subscribe({
               next: result => this.handleFetch(result),
@@ -170,6 +185,7 @@ export class NewsService {
                       erroreDatabase: false,
                       erroreFonte: true
                     })
+
                     this.handleFetch({
                       date: parseInt(lastUpdate),
                       posts: savedPosts
@@ -197,16 +213,16 @@ export class NewsService {
               error: err => {
                 this.handleError(err, {
                   erroreDatabase: true,
-                  erroreFonte: null
+                  erroreFonte: false
                 })
               }
             })
           }
         },
         error: err => {
-          this.handleError(err, { erroreDatabase: true, erroreFonte: null })
+          this.handleError(err, { erroreDatabase: true, erroreFonte: false })
         }
       })
-    }, 1000)
+    }, 500)
   }
 }
