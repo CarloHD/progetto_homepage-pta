@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Subject, combineLatest, map, tap } from 'rxjs'
+import { Subject, combineLatest, map, tap, throwError } from 'rxjs'
 import { PostOriginal } from '../models/post-original.model'
 import { Post } from '../models/post.model'
 import { FirebaseService } from './firebase.service'
 import { UiService } from './ui.service'
-import { environment } from 'src/environments/environment.development'
+import { environment } from 'src/environments/environment'
 
 interface errorType {
   status: number
@@ -39,7 +39,11 @@ export class NewsService {
 
   dataUpdateSubject = new Subject<string>()
   postsSubject = new Subject<Post[]>()
-  errorSubject = new Subject<{ infoError: string; errorMsg: string }>()
+  errorSubject = new Subject<{
+    infoError: string
+    errorMsg: string
+    arrayMessaggio?: string[]
+  } | null>()
 
   fetchPost () {
     const date = Date.now()
@@ -105,7 +109,11 @@ export class NewsService {
       this.postsSubject.next(result.posts)
     }
   }
-  handleError (err: errorType) {
+
+  handleError (
+    err: errorType,
+    extraInfo?: { erroreDatabase: boolean | null; erroreFonte: boolean | null }
+  ) {
     const errorObj: { infoError: string; errorMsg: string } = {
       infoError:
         'Si è verificato un errore durante il caricamento delle nuove news, controlla la tua connessione o riprova piu tardi. \n\n Proverò a mostrate delle news meno recenti se disponibili',
@@ -116,54 +124,89 @@ export class NewsService {
     } else {
       errorObj.errorMsg = err.message
     }
+
     this.uiService.spinnerSubject.next(false)
     this.errorSubject.next(errorObj)
+    console.error(extraInfo)
   }
 
   onLoadPosts () {
+    this.errorSubject.next(null)
     this.uiService.spinnerSubject.next(true)
     const dateNow = new Date()
-    this.firebaseService.getLastUpdate().subscribe({
-      next: lastUpdate => {
-        if (
-          !lastUpdate ||
-          (lastUpdate && !datesAreOnSameDay(new Date(lastUpdate), dateNow))
-        ) {
-          console.log('fetch dal sito')
-          this.fetchPost().subscribe({
-            next: result => this.handleFetch(result),
-            error: (err: errorType) => {
-              if (lastUpdate) {
-                this.handleError(err)
-                this.firebaseService.getSavedPosts().subscribe(savedPosts => {
-                  this.handleFetch({
-                    date: parseInt(lastUpdate),
-                    posts: savedPosts
-                  })
+
+    /**
+     * Timeout per mostrare caricamento
+     * (psicologicamente fa pensare che stia caricando)
+     */
+    setTimeout(() => {
+      // prendo la data dell'ultima fetch
+      this.firebaseService.getLastUpdate().subscribe({
+        next: lastUpdate => {
+          if (!lastUpdate) {
+            // se data MANCANTE effettuo fetch da fonte posts
+            console.log('fetch dal sito per prima volta')
+            this.fetchPost().subscribe({
+              next: result => this.handleFetch(result),
+              error: (err: errorType) => {
+                this.handleError(err, {
+                  erroreDatabase: false,
+                  erroreFonte: true
                 })
-              } else {
-                this.handleError(err)
               }
-            }
-          })
-        } else {
-          console.log('fetch dal db')
-          this.firebaseService.getSavedPosts().subscribe({
-            next: savedPosts => {
-              this.handleFetch({
-                date: parseInt(lastUpdate),
-                posts: savedPosts
-              })
-            },
-            error: err => {
-              this.handleError(err)
-            }
-          })
+            })
+          } else if (!datesAreOnSameDay(new Date(lastUpdate), dateNow)) {
+            // se data SCADUTA effettuo fetch da fonte posts
+            console.log('fetch dal sito')
+            this.fetchPost().subscribe({
+              next: result => this.handleFetch(result),
+              error: (err: errorType) => {
+                // se data SCADUTA ed errore connessione per fonte posts
+                // effettuo fetch database
+                console.log('fetch dal db')
+                this.firebaseService.getSavedPosts().subscribe({
+                  next: savedPosts => {
+                    this.handleError(err, {
+                      erroreDatabase: false,
+                      erroreFonte: true
+                    })
+                    this.handleFetch({
+                      date: parseInt(lastUpdate),
+                      posts: savedPosts
+                    })
+                  },
+                  error: err => {
+                    this.handleError(err, {
+                      erroreDatabase: true,
+                      erroreFonte: true
+                    })
+                  }
+                })
+              }
+            })
+          } else {
+            //se data NON SCADUTA effettuo fetch da database
+            console.log('fetch dal db')
+            this.firebaseService.getSavedPosts().subscribe({
+              next: savedPosts => {
+                this.handleFetch({
+                  date: parseInt(lastUpdate),
+                  posts: savedPosts
+                })
+              },
+              error: err => {
+                this.handleError(err, {
+                  erroreDatabase: true,
+                  erroreFonte: null
+                })
+              }
+            })
+          }
+        },
+        error: err => {
+          this.handleError(err, { erroreDatabase: true, erroreFonte: null })
         }
-      },
-      error: err => {
-        this.handleError(err)
-      }
-    })
+      })
+    }, 1000)
   }
 }
