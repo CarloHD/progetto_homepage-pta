@@ -17,11 +17,13 @@
     appHideInterface
     (click)="onClickAside()"
   ></span>
-  <h3>News</h3>
-  <p class="aside_update">
-    <span>Aggiornate il: </span>
-    <span>{{dateUpdate}}</span>
-  </p>
+  <header>
+    <h3>News</h3>
+    <p class="aside_update">
+      <span>Aggiornate il: </span>
+      <span>{{dateUpdate}}</span>
+    </p>
+  </header>
   <app-spinner *ngIf="isLoading"></app-spinner>
   <div class="aside_content">
     <article

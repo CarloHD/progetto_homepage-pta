@@ -37,6 +37,10 @@
   content: "Chiudi";
 }
 
+.aside_news header {
+  padding-bottom: 15px;
+}
+
 .aside_news h3 {
   width: 100%;
   color: #cc0000;
@@ -48,7 +52,6 @@
 .aside_news .aside_update {
   text-align: center;
   font-size: .7rem;
-  padding-bottom: 15px;
 }
 
 .aside_content {
